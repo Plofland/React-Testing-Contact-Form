@@ -8,24 +8,32 @@ test('inputs are valid and app renders without errors', () => {
   render(<ContactForm />);
 
   //!Act
-  //1. Get the input fields
+  //1._Get the input fields_
 
   const firstNameInput = screen.getByLabelText(/first name/i);
-  // console.log(firstNameInput);
-
   const lastNameInput = screen.getByLabelText(/last name/i);
-  // console.log(lastNameInput);
-
   const emailInput = screen.getByLabelText(/email/i);
-  //2. Type values into the input fields
+  const messageInput = screen.getByLabelText(/message/i);
+  //We can bundle up all these inputs into one array and loop over them for the sake of efficiency ⬇
+  //const allInputs = [firstNameInput, lastNameInput, emailInput, messageInput]
+
+  //2._Type values into the input fields_
   userEvent.type(firstNameInput, 'Pal');
   userEvent.type(lastNameInput, 'Bond');
   userEvent.type(emailInput, 'something@gmail.com');
+  userEvent.type(messageInput, 'Here is a message!');
 
-  //3. Push the Submit button
+  //Or instead of typing them out one by one, we can iterate over the allInputs array ⬇
+  //allInputs.forEach((input) => {
+  //userEvent.type(input, "TYPE TEST");
+  //expect(input.value).toBe("TYPE TEST");
+  // })
+
+  //3._Push the Submit button_
   const submitInput = screen.getByTestId(/submit/i);
   //inputs dont have a role
   //but inputs with the type of submit(type="submit"), then it counts as a button
+  //so this next line will work for that case -> const submitInput = screen.getByRole('button', {name: /submit/i})
   userEvent.click(submitInput);
 
   //!Assert
